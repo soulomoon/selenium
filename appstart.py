@@ -1,21 +1,16 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-driver = webdriver.Ie()
-driver.implicitly_wait(10) # seconds
-# driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-# driver.get('qq.com')
-try:
-	driver.get('baidu.com')
-	search_box = driver.find_element_by_id("kw")
-	search_box.send_keys("时间间")
-	search_box.send_keys("时间间")
-	search_box.send_keys("时间间")
-	search_box.send_keys("时间间")
-	search_box.send_keys("时间间")
-	search_box.send_keys("时间间")
-	search_box.send_keys("sfdsfdsfadsf;sadfjakfjas;ldfjsdkjfsak;djfsajfsjf;sghSGHWGNSKDMVSLDLSaDSJ'FSAHG'HASGS间间时间间时间间时间间时间间时间间时间间时间间时间间时间间时间间时间间时间间时间间时间间时间间时间间时间间时间间时间间时间间间间")
-	search_box.submit()
-except:
-	print("error")
-finally:
-	driver.close()
+user_name = 'yyzhichengshiceshi7'
+web_path = "https://4acasp.gmcc.net///auth/nextlogin.jsp?target=https%3A%2F%2F4a.gmcc.net%2Ffirst.do%3Fmethod%3Dlogin&appCode=IAM000"
+driver = webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub',desired_capabilities=DesiredCapabilities.INTERNETEXPLORER)
+
+driver.get(web_path)
+# 输入登录名
+input = driver.find_element_by_id("smsNameText")
+input.clear()
+input.send_keys(user_name)
+
+
+driver.quit()
