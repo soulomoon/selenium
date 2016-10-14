@@ -12,13 +12,20 @@ class SelServer:
         """
         cmd = self.__get_start_cmd()
         self.pro = self.__execute_cmd(cmd)
+
+        self.stdout = self.pro.stdout
+
         self.__wait_start()
 
 
     def __enter__(self):
+        # self.prop.start()
         pass
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        # self.prop.terminate()
+        # self.prop.join()
+        self.stdout.close()
         self.close()
         print(exc_type)
         # return isinstance(exc_val, exc_type)
@@ -46,37 +53,54 @@ class SelServer:
 
         :return: True when selenium server is up False if not
         """
-        stout = self.pro.stdout
+        stout = self.stdout
         server_word = "Selenium Server is up and running"
         used_word = "java.net.BindException: Address already in use: bind"
         while True:
             line = stout.readline()
             print(line)
-            if server_word in line:
+            # if server_word in line:
+            #     print(line)
+            #     # stout.close()
+            #     return True
+            # elif used_word in line:
+            #     print(line)
+            #     stout.close()
+            #     return False
+
+    def __print(self, stdout):
+        try:
+            while True:
+                line = stdout.readline()
                 print(line)
-                stout.close()
-                return True
-            elif used_word in line:
-                print(line)
-                stout.close()
-                return False
+        finally:
+            stdout.close()
 
     def close(self):
-        self.pro.terminate()
+        # self.pro.terminate()
+        self.pro.kill()
 
+# def start_server():
+#     SelServer
 
 if __name__ == '__main__':
     print("装配线程")
     info("this is main")
 
 
-    with SelServer() as server:
-        robot = threading.Thread(target=hello)
+
+    server = SelServer()
+    robot = threading.Thread(target=hello)
+    try:
+
         # hello()
         print("begin")
         robot.start()
-        time.sleep(3)
+    finally:
+
         robot.join()
+
+        server.close()
 
 
     print("done")
