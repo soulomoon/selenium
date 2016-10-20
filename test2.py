@@ -17,6 +17,8 @@ class SelServer:
 
         self.__wait_start()
 
+        self.stdout.close()
+
 
     def __enter__(self):
         # self.prop.start()
@@ -25,7 +27,6 @@ class SelServer:
     def __exit__(self, exc_type, exc_val, exc_tb):
         # self.prop.terminate()
         # self.prop.join()
-        self.stdout.close()
         self.close()
         print(exc_type)
         # return isinstance(exc_val, exc_type)
@@ -59,14 +60,14 @@ class SelServer:
         while True:
             line = stout.readline()
             print(line)
-            # if server_word in line:
-            #     print(line)
-            #     # stout.close()
-            #     return True
-            # elif used_word in line:
-            #     print(line)
-            #     stout.close()
-            #     return False
+            if server_word in line:
+                print(line)
+                # stout.close()
+                return True
+            elif used_word in line:
+                print(line)
+                # stout.close()
+                return False
 
     def __print(self, stdout):
         try:
