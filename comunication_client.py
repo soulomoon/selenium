@@ -5,7 +5,7 @@ import socket
 import time
 
 HOST = 'localhost'    # The remote host
-PORT = 50007              # The same port as used by the server
+PORT = 6101              # The same port as used by the server
 print(socket.getaddrinfo(HOST, PORT))
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
