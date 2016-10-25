@@ -76,6 +76,7 @@ class Driver:
         elem = _driver.find_element_by_name("wd")
         elem.send_keys(word)
         elem.submit()
+
         print(_driver.title)
         all_cookies = _driver.get_cookies()
         print(all_cookies)

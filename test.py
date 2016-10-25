@@ -1,7 +1,8 @@
 import multiprocessing
-import os
 import subprocess
+import threading
 from logging import info
+from queue import Queue
 from Selenium_Driver import Driver
 import psutil
 
@@ -12,6 +13,8 @@ import psutil
 #     print('module name:', __name__)
 #     print('parent process:', os.getppid())
 #     print('process id:', os.getpid())
+from comunication_client import send_msg
+from comunication_server import get_msg
 
 
 def run_service():
@@ -31,21 +34,30 @@ def run_service():
 
 
 def hello(Server_event):
-    Server_event.wait(1)
+    Server_event.wait(10)
     if Server_event.is_set():
         with Driver() as driver:
+            q = Queue()
+            server = threading.Thread(target=get_msg, args=([q]))
+            server.start()
             print("hello")
 
             session = driver.get_session()
 
             driver2 = Driver(session)
-
             driver.search_google("session1")
-            driver2.search_google("session2")
 
+            # client = threading.Thread(target=send_msg)
+            # client.start()
+            # client.join()
+            # server.join()
+            while True:
+                msg = q.get()
+                print("get from queue" + str(msg))
+                msg = str(msg)
+                driver2.search_google(msg)
             print(driver)
             Server_event.clear()
-
         print("hello done")
     return True
 

@@ -56,7 +56,7 @@ class SelServer:
         while True:
             # wait for a line of the subprocess
             line = stout.readline()
-            print(line)
+            # print(line)
             if server_word in line:
                 print(line)
                 # set server_event
@@ -67,7 +67,7 @@ class SelServer:
                 stout.close()
                 return False
             counter += 1
-            print(counter)
+            # print(counter)
             if signal:
                 # print(server_event.is_set())
                 # server_event have to be unset before realine could not stout.read anything
