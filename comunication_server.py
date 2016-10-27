@@ -14,13 +14,15 @@ class socketServer():
         # start as a server
         self.start_server()
         # receive one msg and print and send
-        # try:
         while True:
-            self.print_msg(q)
-            # break
-            # break
-        # except:jk
-        #     print("出现故障")
+            try:
+
+                self.print_msg(q)
+                print("连接结束")
+                # break
+                # break
+            except:
+                print("出现故障")
 
 
     def start_server(self):

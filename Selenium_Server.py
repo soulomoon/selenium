@@ -99,7 +99,7 @@ if __name__ == '__main__':
 
     with SelServer() as server:
 
-
+        # common event for both thread to indicate if one has
         server_event = threading.Event()
         server_std = threading.Thread(target=server.server_printer, args=([server_event]))
         robot = threading.Thread(target=hello, args=([server_event]))
