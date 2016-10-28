@@ -18,6 +18,7 @@ class socketServer():
         while True:
             try:
                 self.print_msg(q)
+                print("连接结束")
             except:
                 print("one socket down")
 
