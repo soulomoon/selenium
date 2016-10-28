@@ -17,11 +17,13 @@
 import multiprocessing
 import time
 
+
 # bar
 def bar():
     for i in range(100):
         print("Tick")
         time.sleep(1)
+
 
 if __name__ == '__main__':
     # Start bar as a process

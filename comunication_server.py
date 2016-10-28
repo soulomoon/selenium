@@ -8,7 +8,7 @@ from queue import Queue
 
 class socketServer():
     def __init__(self, q):
-        self.address = ("", 6101)
+        self.address = ("10.0.0.3", 6101)
         # make an socket instance
         self.socket = socket.socket()
         # start as a server
@@ -16,18 +16,15 @@ class socketServer():
         # receive one msg and print and send
         # try:
         while True:
-            self.print_msg(q)
-            # break
-            # break
-        # except:jk
-        #     print("出现故障")
-
+            try:
+                self.print_msg(q)
+            except:
+                print("one socket down")
 
     def start_server(self):
         print("socket server start")
         self.socket.bind(self.address)
         self.socket.listen(1)
-
 
     def print_msg(self, q):
         print("listen")
@@ -55,11 +52,14 @@ class socketServer():
                     break
                 conn.sendall(data)
                 # break
+
     def close(self):
         self.socket.close()
 
+
 def get_msg(q):
     sever = socketServer(q)
+
 
 if __name__ == '__main__':
     # sever = socketServer()

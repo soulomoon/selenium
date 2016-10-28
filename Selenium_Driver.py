@@ -8,17 +8,27 @@ class Driver:
         # This is the only code you need to edit in your existing scripts.
         # The command_executor tells the test to run on Sauce, while the desired_capabilities
         # parameter tells us which browsers and OS to spin up.
+
+        _driver = self.start_driver()
+        self.driver = _driver
+        self.session = _driver.session_id
+        self.session_list = []
+
+        self.add_session(self.session)
+        if session:
+            self.switch_driver_session(session)
+    def start_driver(self):
         print("Driver begin")
         _driver = webdriver.Remote(
             command_executor='http://127.0.0.1:4444/wd/hub',
             desired_capabilities=DesiredCapabilities.INTERNETEXPLORER)
         _driver.implicitly_wait(10)
         print("Driver etablish")
+        return _driver
 
-        self.driver = _driver
-        self.session = _driver.session_id
-        if session:
-            self.switch_driver_session(session)
+    def add_session(self, session):
+        if not session in self.session_list:
+            self.session_list.append(session)
 
     def switch_to_frame(self, frame_name):
         driver = self.driver
@@ -66,8 +76,24 @@ class Driver:
         self.close()
         print(exc_val)
 
+    # @staticmethod
+    def _reborn_decorator(func):
+        def reborn(self, word):
+            while True:
+                try:
+                    func(self, word)
+                    return
+                except:
+                    self.close()
+                    self.driver = self.start_driver()
+
+        return reborn
+
+
+    @_reborn_decorator
     def search_google(self, word):
         # This is your test logic. You can add multiple tests here.
+
         _driver = self.driver
         _driver.get("http://www.baidu.com")
         if "百度一下" not in _driver.title:
@@ -80,9 +106,11 @@ class Driver:
         print(_driver.title)
         all_cookies = _driver.get_cookies()
         print(all_cookies)
+
         # links = False
         # try:
         #     links = _driver.find_elements_by_css_selector(".c-abstract")
         #     [print(link.text) for link in links if link.text]
         # finally:
         #     return links if links else False
+

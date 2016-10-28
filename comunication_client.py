@@ -1,13 +1,10 @@
 # Echo client program
-import json
 import socket
 
-import time
 
-
-    # send = s.send(b"time")
-    # print(send)
-    # data2 = s.recv(1024)
+# send = s.send(b"time")
+# print(send)
+# data2 = s.recv(1024)
 def send_msg():
     """
     send to socket server of 6101
@@ -30,6 +27,7 @@ def send_msg():
         print('Received', data)
         s.close()
 
+
 if __name__ == '__main__':
     send_msg()
-# print('Received', data2)
+    # print('Received', data2)
