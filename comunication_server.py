@@ -8,7 +8,7 @@ from queue import Queue
 
 class socketServer():
     def __init__(self, q):
-        self.address = ("10.0.0.3", 6101)
+        self.address = ("", 6101)
         # make an socket instance
         self.socket = socket.socket()
         # start as a server
@@ -37,21 +37,13 @@ class socketServer():
                 d = data.decode('utf-8')
 
                 if d:
-                    try:
-                        d = json.loads(d)
-                    except JSONDecodeError as e:
-                        pass
-                    print(type(d))
                     print(d)
+                    print("-------------------------")
                     if q.empty():
                         q.put(d)
                         break
-                    print("-------------------------")
-                # print(type(data))
-                # print(d['test'])
                 if not data:
                     break
-                conn.sendall(data)
                 # break
 
     def close(self):

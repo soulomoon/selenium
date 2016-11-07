@@ -22,7 +22,7 @@ def send_msg():
         # b = json.dumps(a).encode('utf-8')
         s.sendall(mstr)
 
-        print("sneded")
+        print("send")
         data = s.recv(1024)
         print('Received', data)
         s.close()

@@ -1,4 +1,5 @@
 import time
+from _winapi import CREATE_NEW_CONSOLE
 
 from test import *
 import threading
@@ -37,8 +38,11 @@ class SelServer:
         :return: Popen instance
         """
         pro = subprocess.Popen(cmd,
+                               # creationflags=CREATE_NEW_CONSOLE,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT,
+                               stdin = subprocess.PIPE,
+                               # shell=True,
                                universal_newlines=True)
         return pro
 
@@ -101,19 +105,24 @@ if __name__ == '__main__':
 
         # common event for both thread to indicate if one has
         server_event = threading.Event()
-        server_std = threading.Thread(target=server.server_printer, args=([server_event]))
-        robot = threading.Thread(target=hello, args=([server_event]))
-
+        q = Queue()
+        # printing out selenium console
+        selenium_server_std = threading.Thread(target=server.server_printer, args=([server_event]))
+        # server for socket
+        socket_server = threading.Thread(target=get_msg, args=([q]))
+        robot = threading.Thread(target=hello, args=([server_event, q]))
         try:
 
             # hello()
             print("Thread is beginning")
-            server_std.start()
+            selenium_server_std.start()
+            socket_server.start()
             robot.start()
 
         finally:
             robot.join()
-            server_std.join()
+            selenium_server_std.join()
+            socket_server.join()
 
     # print("here")
 

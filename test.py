@@ -22,15 +22,10 @@ def run_service():
     return selenium_server
 
 
-def hello(Server_event):
+def hello(Server_event, q):
     Server_event.wait(10)
     if Server_event.is_set():
         with Driver() as driver:
-            q = Queue()
-            server = threading.Thread(target=get_msg, args=([q]))
-            server.start()
-            print("hello")
-
             session = driver.get_session()
 
             driver2 = Driver(session)
