@@ -88,6 +88,43 @@ class Driver:
                     self.driver = self.start_driver()
 
         return reborn
+    def login(self, username):
+        _driver = self.driver
+        # elem = _driver.find_element_by_name("wd")
+        _driver.get("https://4acasp.gmcc.net/")
+        if "4A" not in _driver.title:
+            raise Exception("Unable to load 4A page!")
+        login_id = "smsNameText"
+
+        # 输入用户名等待跳转
+        login_name = _driver.find_element_by_id(login_id)
+        login_button = _driver.find_element_by_css_selector("input.button")
+
+        login_name.send_keys(username)
+        # double click
+        login_button.click()
+        login_button.click()
+
+        # 输入静态密码
+        login_psw = _driver.find_element_by_name("smsPwd")
+        login_psw.send_keys("***REMOVED***")
+
+        # 发送验证短信
+        send_phone = _driver.find_element_by_id("sendsms_btn")
+        send_phone.click()
+        send_phone.click()
+
+    def input_dynamic(self, sms_pwd):
+        _driver = self.driver
+        dynamic_smsPwd = _driver.find_element_by_name("dynamic_smsPwd")
+        dynamic_smsPwd.send_keys(sms_pwd)
+
+        login_assure = _driver.find_element_by_id("sb_btn")
+        login_assure.click()
+        a=1
+        a=2
+
+
 
 
     @_reborn_decorator
@@ -95,17 +132,18 @@ class Driver:
         # This is your test logic. You can add multiple tests here.
 
         _driver = self.driver
-        _driver.get("http://www.baidu.com")
-        if "百度一下" not in _driver.title:
-            raise Exception("Unable to load baidu page!")
+        # _driver.get("http://www.baidu.com")
+        # _driver.get("https://4acasp.gmcc.net/")
+        # if "4A" not in _driver.title:
+        #     raise Exception("Unable to load 4A page!")
 
-        elem = _driver.find_element_by_name("wd")
-        elem.send_keys(word)
-        elem.submit()
+        # elem = _driver.find_element_by_name("wd")
+        # elem.send_keys(word)
+        # elem.submit()
 
         print(_driver.title)
-        all_cookies = _driver.get_cookies()
-        print(all_cookies)
+        # all_cookies = _driver.get_cookies()
+        # print(all_cookies)
 
         # links = False
         # try:

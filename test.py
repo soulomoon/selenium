@@ -1,4 +1,5 @@
 import multiprocessing
+import re
 import subprocess
 import threading
 from logging import info
@@ -22,14 +23,17 @@ def run_service():
     return selenium_server
 
 
+# noinspection SpellCheckingInspection
 def hello(Server_event, q):
     Server_event.wait(10)
     if Server_event.is_set():
         with Driver() as driver:
             session = driver.get_session()
 
-            driver2 = Driver(session)
-            driver.search_google("session1")
+            # driver2 = Driver(session)
+            # driver.search_google("session1")
+            driver.login("dwfengjiatong")
+
 
             # client = threading.Thread(target=send_msg)
             # client.start()
@@ -39,7 +43,10 @@ def hello(Server_event, q):
                 msg = q.get()
                 print("get from queue" + str(msg))
                 msg = str(msg)
-                driver2.search_google(msg)
+                msg = re.findall(r"(\d{6})", msg)[0]
+                print(msg)
+
+                driver.input_dynamic(msg)
             print(driver)
 
         Server_event.clear()
