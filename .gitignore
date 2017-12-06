@@ -91,3 +91,7 @@ ENV/
 
 # password
 passwords.txt
+
+# ide
+.vscode
+.idea
