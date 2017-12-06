@@ -107,7 +107,7 @@ class Driver:
 
         # 输入静态密码
         login_psw = _driver.find_element_by_name("smsPwd")
-        login_psw.send_keys("***REMOVED***")
+        login_psw.send_keys("mima")
 
         # 发送验证短信
         send_phone = _driver.find_element_by_id("sendsms_btn")
